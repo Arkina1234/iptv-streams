@@ -32,7 +32,7 @@ try:
     with open('stirr.m3u', 'w', encoding='utf-8') as f:
         f.write(m3u_content)
 
-    print(f"M3U playlist saved to stirr.m3u with {len(videos[0])} entries")
+    print("M3U file saved as 'stirr.m3u')
 
 except requests.exceptions.RequestException as e:
     print(f"Error making API request: {e}")

@@ -33,14 +33,14 @@ jobs:
           pip install requests
 
       - name: Run Playlist Generation Script
-        run: python ./*.py
+        run: python stirr.py
 
       - name: Commit and Push Changes
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           # Check if there are any changes in the playlists directory
-          if git diff --quiet --exit-code *.m3u; then
+          if git diff --quiet --exit-code HEAD origin/main; then
             echo "No changes detected in playlists."
             exit 0 # Exit successfully, no commit needed
           fi

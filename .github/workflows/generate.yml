@@ -34,8 +34,10 @@ jobs:
 
       - name: Run Playlist Generation Script
         # If you have a single entrypoint script, replace *.py with that filename for clarity
-        run: python *.py
-
+        run: |
+          for file in *.py; do
+            python "$file"
+          done
       - name: Commit and push generated playlists
         shell: bash
         env:

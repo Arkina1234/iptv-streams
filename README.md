@@ -1,1 +1,1 @@
-# iptv-playlists
+# iptv-streams

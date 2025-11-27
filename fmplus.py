@@ -11,7 +11,7 @@ response = requests.get(url)
 data = response.json()
 
 # Initialize outputs
-m3u_output = "#EXTM3U\n"
+m3u_output = "#EXTM3U url-tvg=\"https://arkina1234.github.io/iptv-streams/fmplus.xml\"\n"
 tv = ET.Element("tv")
 tv.set("source-info-url", "https://epg.unreel.me")
 tv.set("source-info-name", "Bitcentral")

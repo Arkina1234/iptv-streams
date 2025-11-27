@@ -10,64 +10,79 @@ url = "https://epg.unreel.me/v2/sites/fmplus/live-channels/public/081f73704b56aa
 response = requests.get(url)
 data = response.json()
 
-# Process the first channel
-channel = data[0]
-
-# Extract channel information
-epg_description = channel.get('epg', {}).get('entries', [{}])[0].get('description') if channel.get('epg', {}).get('entries') else None
-epg_start = channel.get('epg', {}).get('entries', [{}])[0].get('start') if channel.get('epg', {}).get('entries') else None
-epg_stop = channel.get('epg', {}).get('entries', [{}])[0].get('stop') if channel.get('epg', {}).get('entries') else None
-epg_title = channel.get('epg', {}).get('entries', [{}])[0].get('title') if channel.get('epg', {}).get('entries') else None
-thumbnails = channel.get('thumbnails', {}).get('light')
-channel_id = channel.get('_id')
-name = channel.get('name')
-stream_url = channel.get('url')
-
-# Process EPG data
-description = html.escape(epg_description) if epg_description else ""
-start = datetime.strptime(epg_start, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y%m%d%H%M%S") if epg_start else ""
-stop = datetime.strptime(epg_stop, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y%m%d%H%M%S") if epg_stop else ""
-title = html.escape(epg_title) if epg_title else ""
-
-# Process stream URL
-stream = stream_url.replace('[', '%5B').replace(']', '%5D') if stream_url else ""
-
-# Generate M3U output
-m3u_output = f"""#EXTM3U
-#EXTINF:-1 tvg-id="{channel_id}" tvg-logo="{thumbnails}",{name}
-{stream}
-"""
-
-# Generate XMLTV output
+# Initialize outputs
+m3u_output = "#EXTM3U\n"
 tv = ET.Element("tv")
 tv.set("source-info-url", "https://epg.unreel.me")
 tv.set("source-info-name", "Bitcentral")
 tv.set("generator-info-name", "")
 
-# Channel element
-channel_elem = ET.SubElement(tv, "channel")
-channel_elem.set("id", channel_id)
+# Process all channels
+for channel in data:
+    # Extract channel information
+    thumbnails = channel.get('thumbnails', {}).get('light')
+    channel_id = channel.get('_id')
+    name = channel.get('name')
+    stream_url = channel.get('url')
 
-display_name = ET.SubElement(channel_elem, "display-name")
-display_name.text = html.escape(name)
+    # Process stream URL
+    if stream_url:
+        stream = stream_url.replace('[', '%5B').replace(']', '%5D')
+    else:
+        stream = ""
 
-icon = ET.SubElement(channel_elem, "icon")
-icon.set("src", thumbnails)
+    # Add to M3U output
+    m3u_output += f'#EXTINF:-1 tvg-id="{channel_id}" tvg-logo="{thumbnails}",{name}\n'
+    m3u_output += f'{stream}\n'
 
-# Programme element (if EPG data exists)
-if epg_start and epg_stop:
-    programme = ET.SubElement(tv, "programme")
-    programme.set("start", f"{start} +0000")
-    programme.set("stop", f"{stop} +0000")
-    programme.set("channel", channel_id)
+    # Create channel element in XML
+    channel_elem = ET.SubElement(tv, "channel")
+    channel_elem.set("id", channel_id)
 
-    title_elem = ET.SubElement(programme, "title")
-    title_elem.set("lang", "en")
-    title_elem.text = title
+    display_name = ET.SubElement(channel_elem, "display-name")
+    display_name.text = html.escape(name)
 
-    desc_elem = ET.SubElement(programme, "desc")
-    desc_elem.set("lang", "en")
-    desc_elem.text = description
+    if thumbnails:
+        icon = ET.SubElement(channel_elem, "icon")
+        icon.set("src", thumbnails)
+
+    # Process all EPG entries for this channel
+    if channel.get('epg') and channel['epg'].get('entries'):
+        for entry in channel['epg']['entries']:
+            epg_description = entry.get('description')
+            epg_start = entry.get('start')
+            epg_stop = entry.get('stop')
+            epg_title = entry.get('title')
+
+            # Skip if no start/stop times
+            if not epg_start or not epg_stop:
+                continue
+
+            # Process EPG data
+            description = html.escape(epg_description) if epg_description else ""
+            title = html.escape(epg_title) if epg_title else ""
+
+            try:
+                start = datetime.strptime(epg_start, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y%m%d%H%M%S")
+                stop = datetime.strptime(epg_stop, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y%m%d%H%M%S")
+            except ValueError:
+                continue  # Skip if date parsing fails
+
+            # Create programme element
+            programme = ET.SubElement(tv, "programme")
+            programme.set("start", f"{start} +0000")
+            programme.set("stop", f"{stop} +0000")
+            programme.set("channel", channel_id)
+
+            if title:
+                title_elem = ET.SubElement(programme, "title")
+                title_elem.set("lang", "en")
+                title_elem.text = title
+
+            if description:
+                desc_elem = ET.SubElement(programme, "desc")
+                desc_elem.set("lang", "en")
+                desc_elem.text = description
 
 # Convert XML to string
 xml_str = ET.tostring(tv, encoding='utf-8', method='xml')
@@ -81,6 +96,7 @@ with open("fmplus.m3u", "w", encoding="utf-8") as f:
 with open("fmplus.xml", "w", encoding="utf-8") as f:
     f.write(xml_output)
 
-print("Files saved successfully!")
+print(f"Files saved successfully!")
+print(f"Processed {len(data)} channels")
 print("M3U file: fmplus.m3u")
 print("XML file: fmplus.xml")

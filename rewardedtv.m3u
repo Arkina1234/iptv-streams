@@ -1,4 +1,4 @@
-#EXTM3U
+#EXTM3U url-tvg="https://arkina1234.github.io/iptv-streams/rewardedtv.xml"
 #EXTINF:-1 tvg-id="63eaad39222e13000b5fde74" tvg-logo="https://media.unreel.me/prod/rewardedtv/logo/b8bfbca5-170f-4b5c-83f5-a93cfbc5d526",Defiance TV
 https://api-wrapper-tracking.imaginereplay.com/api/v1/stream/63ead660ab3f52ced38ba8ac/playlist.m3u8?externalUserId=%5BUSER_ID%5D&provider=powr&deviceId=%5BDEVICE_ID%5D&externalAssetId=63eaad39222e13000b5fde74&referrerUrl=%5BREF%5D&app_bundle=watch.rewarded.tv&app_name=RewardedTV&app_store_url=https://watch.rewarded.tv&url=https://watch.rewarded.tv&genre=News&ic=IAB12&us_privacy=%5BLAT%5D&gdpr=%5BLAT%5D&gdpr_consent=%5BLAT%5D&dnt=%5BLAT%5D&did=%5BDEVICE_ID%5D&coppa=0
 #EXTINF:-1 tvg-id="63dabacd5427f1000b7d02ad" tvg-logo="https://media.unreel.me/prod/rewardedtv/logo/d0fc8354-43fa-4e0f-af10-d23a75a50941",Watch Mojo

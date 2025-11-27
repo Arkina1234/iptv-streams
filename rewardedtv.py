@@ -26,10 +26,10 @@ for channel in data:
     
     # Add channel to XMLTV
     xmltv_content += f'''
-<channel id="{channel_id}">
-<display-name>{name}</display-name>
-<icon src="{thumbnails}" />
-</channel>'''
+    <channel id="{channel_id}">
+        <display-name>{name}</display-name>
+        <icon src="{thumbnails}" />
+    </channel>'''
     
     # Add EPG entries if available
     if 'epg' in channel and channel['epg']['entries']:
@@ -44,10 +44,10 @@ for channel in data:
             stop_timestamp = datetime.strptime(epg_stop, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y%m%d%H%M%S")
             
             xmltv_content += f'''
-<programme start="{start_timestamp} +0000" stop="{stop_timestamp} +0000" channel="{channel_id}">
-<title lang="en">{epg_title}</title>
-<desc lang="en">{epg_description}</desc>
-</programme>'''
+    <programme start="{start_timestamp} +0000" stop="{stop_timestamp} +0000" channel="{channel_id}">
+        <title lang="en">{epg_title}</title>
+        <desc lang="en">{epg_description}</desc>
+    </programme>'''
 
 # Close XMLTV
 xmltv_content += "\n</tv>"

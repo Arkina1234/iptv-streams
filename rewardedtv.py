@@ -1,59 +1,56 @@
 import requests
 import json
+from datetime import datetime
 
 # Make the API request
 url = "https://epg.unreel.me/v2/sites/rewardedtv/live-channels/public/081f73704b56aaceb6b459804761ec54"
 response = requests.get(url)
 data = response.json()
 
-# Generate M3U content for all channels
-m3u_content = "#EXTM3U url-tvg=\"https://raw.githubusercontent.com/Arkina1234/iptv-streams/main/rewardedtv.xml\"\n"
-for channel in data:
-    thumbnails = channel.get('thumbnails', {}).get('light')
-    channel_id = channel.get('_id')
-    name = channel.get('name')
-    url = channel.get('url')
-    
-    m3u_content += f'#EXTINF:-1 tvg-id="{channel_id}" tvg-logo="{thumbnails}",{name}\n'
-    m3u_content += f'{url}\n'
-
-# Generate XMLTV content for all channels
-xmltv_content = """<?xml version="1.0" encoding="ISO-8859-1"?>
+# Initialize content
+m3u_content = "#EXTM3U\n"
+xmltv_content = '''<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE tv SYSTEM "xmltv.dtd">
-<tv source-info-url="https://epg.unreel.me" source-info-name="Bitcentral" generator-info-name="">
-"""
+<tv source-info-url="https://epg.unreel.me" source-info-name="Bitcentral" generator-info-name="">'''
 
-# Add channels
+# Process all channels
 for channel in data:
-    thumbnails = channel.get('thumbnails', {}).get('light')
-    channel_id = channel.get('_id')
-    name = channel.get('name')
+    # Extract channel information
+    channel_id = channel['_id']
+    name = channel['name']
+    stream_url = channel['url']
+    thumbnails = channel['thumbnails']['light']
     
-    xmltv_content += f"""<channel id="{channel_id}">
+    # Add to M3U
+    m3u_content += f'#EXTINF:-1 tvg-id="{channel_id}" tvg-logo="{thumbnails}",{name}\n{stream_url}\n'
+    
+    # Add channel to XMLTV
+    xmltv_content += f'''
+<channel id="{channel_id}">
 <display-name>{name}</display-name>
 <icon src="{thumbnails}" />
-</channel>
-"""
-
-# Add programmes
-for channel in data:
-    channel_id = channel.get('_id')
+</channel>'''
     
-    # Check if EPG data exists
-    if channel.get('epg') and channel['epg'].get('entries'):
+    # Add EPG entries if available
+    if 'epg' in channel and channel['epg']['entries']:
         for entry in channel['epg']['entries']:
             epg_description = entry.get('description', '')
-            epg_start = entry.get('start')
-            epg_stop = entry.get('stop')
-            epg_title = entry.get('title', '')
+            epg_start = entry['start']
+            epg_stop = entry['stop']
+            epg_title = entry['title']
             
-            xmltv_content += f"""<programme start="{epg_start}" stop="{epg_stop}" channel="{channel_id}">
+            # Convert timestamps
+            start_timestamp = datetime.strptime(epg_start, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y%m%d%H%M%S")
+            stop_timestamp = datetime.strptime(epg_stop, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y%m%d%H%M%S")
+            
+            xmltv_content += f'''
+<programme start="{start_timestamp} +0000" stop="{stop_timestamp} +0000" channel="{channel_id}">
 <title lang="en">{epg_title}</title>
 <desc lang="en">{epg_description}</desc>
-</programme>
-"""
+</programme>'''
 
-xmltv_content += "</tv>"
+# Close XMLTV
+xmltv_content += "\n</tv>"
 
 # Save to files
 with open('rewardedtv.m3u', 'w', encoding='utf-8') as m3u_file:
@@ -62,7 +59,6 @@ with open('rewardedtv.m3u', 'w', encoding='utf-8') as m3u_file:
 with open('rewardedtv.xml', 'w', encoding='utf-8') as xml_file:
     xml_file.write(xmltv_content)
 
-print(f"Processed {len(data)} channels")
-print("Files saved successfully:")
-print("- rewardedtv.m3u")
-print("- rewardedtv.xml")
+print("Files saved successfully!")
+print("M3U file: rewardedtv.m3u")
+print("XMLTV file: rewardedtv.xml")

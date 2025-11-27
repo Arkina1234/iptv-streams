@@ -7,7 +7,7 @@ response = requests.get(url)
 data = response.json()
 
 # Generate M3U content for all channels
-m3u_content = "#EXTM3U\n"
+m3u_content = "#EXTM3U url-tvg=\"https://raw.githubusercontent.com/Arkina1234/iptv-streams/main/rewardedtv.xml\"\n"
 for channel in data:
     thumbnails = channel.get('thumbnails', {}).get('light')
     channel_id = channel.get('_id')
@@ -15,7 +15,7 @@ for channel in data:
     url = channel.get('url')
     
     m3u_content += f'#EXTINF:-1 tvg-id="{channel_id}" tvg-logo="{thumbnails}",{name}\n'
-    m3u_content += f'{url}\n\n'
+    m3u_content += f'{url}\n'
 
 # Generate XMLTV content for all channels
 xmltv_content = """<?xml version="1.0" encoding="ISO-8859-1"?>

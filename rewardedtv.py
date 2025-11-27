@@ -23,11 +23,3 @@ with open('rewardedtv.m3u', 'w', encoding='utf-8') as f:
     f.write(m3u_content)
 
 print("M3U file saved as 'rewardedtv.m3u'")
-
-
-except requests.exceptions.RequestException as e:
-    print(f"Error making API request: {e}")
-except json.JSONDecodeError as e:
-    print(f"Error parsing JSON response: {e}")
-except Exception as e:
-    print(f"An unexpected error occurred: {e}")

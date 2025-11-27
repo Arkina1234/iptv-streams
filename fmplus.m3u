@@ -1,4 +1,4 @@
-#EXTM3U
+#EXTM3U url-tvg="https://arkina1234.github.io/iptv-streams/fmplus.xml"
 #EXTINF:-1 tvg-id="655a40cfb886223935b56f76" tvg-logo="https://media.unreel.me/prod/fmplus/logo/53ba6533-8847-4ead-bb3b-a802fcaf6b68",Free Movies Plus
 https://amg02042-ottstudio-amg02042c1-ottstudios-northamerica-1678.playouts.now.amagi.tv/playlist/amg02042-ottstudiofast-freemoviesplus-ottstudiosnorthamerica/playlist.m3u8?provider=Free_Movies_Plus&deviceId=%5BDEVICE_ID%5D&externalAssetId=%5BAsset_ID%5D&Url=%5BREF%5D&genre=Entertainment&ic=IAB1-7&us_privacy=%5BUS_PRIVACY%5D&gdpr=%5BGDPR%5D&gdpr_consent=%5BCONSENT_STRING%5D&dnt=%5BLAT%5D&did=%5BDEVICE_ID%5D&coppa=0&Channel_Name=Free_Movies_Plus&content_livestream=1&pod_max_dur=150&lmt=%5BLAT%5D
 #EXTINF:-1 tvg-id="691bbc90cb55bfa895d98b6d" tvg-logo="https://media.unreel.me/prod/fmplus/logo/d873413c-933e-41ec-9c27-9f71b7f6a0fc",Christmas Plus

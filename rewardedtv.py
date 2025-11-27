@@ -20,7 +20,7 @@ for item in data:
     
     # Add channel to M3U
     m3u_content += f'#EXTINF:-1 tvg-id="{id}" tvg-logo="{thumbnails}",{name}\n'
-    m3u_content += f'{stream}\n\n'
+    m3u_content += f'{stream}\n'
 
 # Save to output file
 with open('rewardedtv.m3u', 'w', encoding='utf-8') as f:

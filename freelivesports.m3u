@@ -1,4 +1,4 @@
-#EXTM3U url-tvg="https://arkina1234.github.io/iptv-streams/fmplus.xml"
+#EXTM3U url-tvg="https://arkina1234.github.io/iptv-streams/freelivesports.xml"
 #EXTINF:-1 tvg-id="6902789463cbad62d1ce4a43" tvg-logo="https://media.unreel.me/prod/freelivesports/logo/82d206b8-354b-4f3b-b9be-c144bc2c7183",MSG Sports Zone
 https://dcfe9c46.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/U3BvcnRzVHJpYmFsX01TR1Nwb3J0c1pvbmVfSExT/playlist.m3u8?ads.wurl_channel=1386&ads.wurl_name=MSGSportsZone&ads.channel_name=MSG%20Sports%20Zone&ads.content_genre=Sport&ads.ic=IAB17&ads.rating=PG&ads.language=US&provider=FreeLiveSports&ads.us_privacy=%5BUS_PRIVACY%5D&ads.gdpr=%5BGDPR%5D&ads.consent=%5BCONSENT_STRING%5D&ads.coppa=0&ads.content_livestream=1&ads.content_url=%5BREF%5D&ads.dnt=%5BLAT%5D&ads.device_id=%5BDEVICE_ID%5D
 #EXTINF:-1 tvg-id="67917b0632aff68ae846bb05" tvg-logo="https://media.unreel.me/prod/freelivesports/logo/2423f32d-c464-471b-9476-3d2019ea99dc",beIN Sports Xtra

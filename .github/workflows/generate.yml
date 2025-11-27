@@ -35,6 +35,7 @@ jobs:
       - name: Run Playlist Generation Script
         # If you have a single entrypoint script, replace *.py with that filename for clarity
         run: |
+          python freelivesports.py
           python rewardedtv.py
           python stirr.py
       - name: Commit and push generated playlists

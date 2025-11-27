@@ -6,20 +6,24 @@ url = "https://epg.unreel.me/v2/sites/freelivesports/live-channels/public/081f73
 response = requests.get(url)
 data = response.json()
 
-# Generate M3U content
+# Create M3U content
 m3u_content = "#EXTM3U\n"
 
 for item in data:
     thumbnails = item['thumbnails']['light']
-    channel_id = item['_id']
+    id = item['_id']
     name = item['name']
     url = item['url']
-    
-    m3u_content += f'#EXTINF:-1 tvg-id="{channel_id}" tvg-logo="{thumbnails}",{name}\n'
-    m3u_content += f'{url}\n'
+
+    # Process the stream URL
+    stream = url.replace('[', '%5B').replace(']', '%5D')
+
+    # Add channel to M3U
+    m3u_content += f'#EXTINF:-1 tvg-id="{id}" tvg-logo="{thumbnails}",{name}\n'
+    m3u_content += f'{stream}\n'
 
 # Save to output file
 with open('freelivesports.m3u', 'w', encoding='utf-8') as f:
     f.write(m3u_content)
 
-print("M3U file saved as 'freelivesports.m3u'")
+print(f"M3U file saved as '.m3u' with {len(data)} channels")

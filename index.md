@@ -11,7 +11,7 @@
 <tr>
 <td>
 <div class="service-cell">
-<img src="/logos/fmplus.png" alt="Free Movies Plus" class="service-logo">
+<img src="logos/fmplus.png" alt="Free Movies Plus" class="service-logo">
 </div>
 </td>
 <td class="links">
@@ -27,7 +27,7 @@
 <tr>
 <td>
 <div class="service-cell">
-<img src="/logos/freelivesports.png" alt="Free Live Sports" class="service-logo">
+<img src="logos/freelivesports.png" alt="Free Live Sports" class="service-logo">
 </div>
 </td>
 <td class="links">
@@ -43,8 +43,8 @@
 <tr>
 <td>
 <div class="service-cell">
-<img src="/logos/rewardedtv.png" alt="Rewarded TV" class="service-logo">
-<img src="/logos/multitvplus.png" alt="Multi TV+" class="service-logo">
+<img src="logos/rewardedtv.png" alt="Rewarded TV" class="service-logo">
+<img src="logos/multitvplus.png" alt="Multi TV+" class="service-logo">
 </div>
 </td>
 <td class="links">
@@ -61,7 +61,7 @@
 <tr>
 <td>
 <div class="service-cell">
-<img src="/logos/stirr.png" alt="STIRR" class="service-logo">
+<img src="logos/stirr.png" alt="STIRR" class="service-logo">
 </div>
 </td>
 <td class="links">

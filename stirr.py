@@ -16,7 +16,7 @@ for video in videos:
     videoid = video.get('videoid')
     title = video.get('title')
     live = video.get('live')
-    square_thumbs = video.get('square_thumbs', {}).get('original') if video.get('square_thumbs') else None
+    square_thumbs = video.get('square_thumbs', {}).get('512x512') if video.get('square_thumbs') else None
     
     # Add entry to M3U playlist
     m3u_content += f'#EXTINF:-1 tvg-id="{videoid}" tvg-logo="{square_thumbs}",{title}\n'

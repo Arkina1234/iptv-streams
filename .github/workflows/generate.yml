@@ -47,7 +47,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Stage playlist files (force in case they are in .gitignore); tolerate no-match
-          git add --force *.m3u *.xml || true
+          git add --force m3u epg || true
           # If there are staged changes, commit and push; otherwise skip
           if git diff --cached --quiet; then
             echo "No playlist changes to commit."

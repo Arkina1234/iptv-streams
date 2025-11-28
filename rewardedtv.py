@@ -8,7 +8,7 @@ response = requests.get(url)
 data = response.json()
 
 # Generate M3U output for all channels
-m3u_output = "#EXTM3U url-tvg=\"https://arkina1234.github.io/iptv-streams/rewardedtv.xml\"\n"
+m3u_output = "#EXTM3U url-tvg=\"https://arkina1234.github.io/iptv-streams/epg/rewardedtv.xml\"\n"
 for channel in data:
     channel_id = channel['_id']
     name = channel['name']
@@ -58,10 +58,10 @@ for channel in data:
 xml_output += '</tv>'
 
 # Save to files
-with open('rewardedtv.m3u', 'w', encoding='utf-8') as f:
+with open('m3u/rewardedtv.m3u', 'w', encoding='utf-8') as f:
     f.write(m3u_output)
 
-with open('rewardedtv.xml', 'w', encoding='utf-8') as f:
+with open('epg/rewardedtv.xml', 'w', encoding='utf-8') as f:
     f.write(xml_output)
 
 print("Files saved: rewardedtv.m3u and rewardedtv.xml")

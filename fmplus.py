@@ -29,10 +29,10 @@ for channel in data:
     name = channel['name'].replace('&', '&amp;')
     thumbnails = channel['thumbnails']['light']
     
-    xml_output += f'    <channel id="{channel_id}">\n'
-    xml_output += f'        <display-name>{name}</display-name>\n'
-    xml_output += f'        <icon src="{thumbnails}" />\n'
-    xml_output += '    </channel>\n'
+    xml_output += f'<channel id="{channel_id}">\n'
+    xml_output += f'<display-name>{name}</display-name>\n'
+    xml_output += f'<icon src="{thumbnails}" />\n'
+    xml_output += '</channel>\n'
 
 # Add programmes
 for channel in data:
@@ -50,10 +50,10 @@ for channel in data:
             stop = datetime.strptime(epg_stop, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y%m%d%H%M%S")
             title = epg_title.replace('&', '&amp;') if epg_title else ""
             
-            xml_output += f'    <programme start="{start} +0000" stop="{stop} +0000" channel="{channel_id}">\n'
-            xml_output += f'        <title lang="en">{title}</title>\n'
-            xml_output += f'        <desc lang="en">{description}</desc>\n'
-            xml_output += '    </programme>\n'
+            xml_output += f'<programme start="{start} +0000" stop="{stop} +0000" channel="{channel_id}">\n'
+            xml_output += f'<title lang="en">{title}</title>\n'
+            xml_output += f'<desc lang="en">{description}</desc>\n'
+            xml_output += '</programme>\n'
 
 xml_output += '</tv>'
 

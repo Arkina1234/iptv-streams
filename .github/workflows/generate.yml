@@ -9,7 +9,7 @@ on:
     branches:
       - main # Optional: Run when the script itself is updated on the main branch
     paths:
-      - '*scripts/.py'
+      - '*scripts/*.py'
       - '.github/workflows/generate.yml'
 
 jobs:

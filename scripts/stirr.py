@@ -7,7 +7,7 @@ response = requests.get(url)
 data = response.json()
 
 # Create M3U playlist
-m3u_content = "#EXTM3U url-tvg=\"https://github.com/matthuisman/i.mjh.nz/raw/master/Stirr/all.xml\"\n"
+m3u_content = "#EXTM3U url-tvg=\"https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Stirr/all.xml\"\n"
 
 # Iterate through all videos
 for category in data['videos']['category_videos']:

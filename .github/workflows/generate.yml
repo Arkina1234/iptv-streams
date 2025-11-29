@@ -9,7 +9,7 @@ on:
     branches:
       - main # Optional: Run when the script itself is updated on the main branch
     paths:
-      - '*.py'
+      - '*scripts/.py'
       - '.github/workflows/generate.yml'
 
 jobs:
@@ -35,10 +35,10 @@ jobs:
       - name: Run Playlist Generation Script
         # If you have a single entrypoint script, replace *.py with that filename for clarity
         run: |
-          python fmplus.py
-          python freelivesports.py
-          python rewardedtv.py
-          python stirr.py
+          python scripts/fmplus.py
+          python scripts/freelivesports.py
+          python scripts/rewardedtv.py
+          python scripts/stirr.py
       - name: Commit and push generated playlists
         shell: bash
         env:

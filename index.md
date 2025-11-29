@@ -67,7 +67,8 @@
 <td class="links">
 <a href="https://arkina1234.github.io/iptv-streams/m3u/stirr.m3u" target="_blank">m3u</a>
 </td>
-<td class="no-epg">
+<td class="links">
+<a href="https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Stirr/all.xml" target="_blank">epg</a>
 </td>
 <td>
 <a href="https://stirr.com/" target="_blank" class="website-link">https://stirr.com/</a>

@@ -65,7 +65,7 @@ def generate_m3u_playlist():
                 })
     
     # Generate M3U content
-    m3u_content = '#EXTM3U url-tvg="https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Stirr/all.xml"\n\n'
+    m3u_content = '#EXTM3U url-tvg="https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Stirr/all.xml"\n'
     
     for channel in channels:
         m3u_content += f'#EXTINF:-1 tvg-id="{channel["videoid"]}" tvg-chno="{channel["sequence"]}" tvg-logo="{channel["logo"]}",{channel["title"]}\n'

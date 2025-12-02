@@ -117,11 +117,11 @@ def main():
     
     # Generate M3U playlist
     m3u_content = generate_m3u(data)
-    save_to_file('fmplus.m3u', m3u_content)
+    save_to_file('m3u/fmplus.m3u', m3u_content)
     
     # Generate XMLTV guide
     xml_content = generate_xml(data)
-    save_to_file('fmplus.xml', xml_content)
+    save_to_file('epg/fmplus.xml', xml_content)
     
     print(f"Processed {len(data)} channels")
 

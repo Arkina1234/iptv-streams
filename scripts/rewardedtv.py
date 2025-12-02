@@ -60,10 +60,10 @@ def generate_xml(channels: List[Dict[str, Any]]) -> str:
         name = sanitize_text(channel.get('name', ''))
         thumbnails = channel.get('thumbnails', {}).get('light', '')
         
-        xml_content += f'''    <channel id="{id}">
-        <display-name>{name}</display-name>
-        <icon src="{thumbnails}" />
-    </channel>\n'''
+        xml_content += f'''<channel id="{id}">
+<display-name>{name}</display-name>
+<icon src="{thumbnails}" />
+</channel>\n'''
     
     # Then, add programmes
     for channel in channels:
@@ -88,10 +88,10 @@ def generate_xml(channels: List[Dict[str, Any]]) -> str:
                 start_str = start_dt.strftime("%Y%m%d%H%M%S")
                 stop_str = stop_dt.strftime("%Y%m%d%H%M%S")
                 
-                xml_content += f'''    <programme start="{start_str} +0000" stop="{stop_str} +0000" channel="{id}">
-        <title>{title}</title>
-        <desc>{description}</desc>
-    </programme>\n'''
+                xml_content += f'''<programme start="{start_str} +0000" stop="{stop_str} +0000" channel="{id}">
+<title>{title}</title>
+<desc>{description}</desc>
+</programme>\n'''
             except (ValueError, KeyError) as e:
                 print(f"Error parsing date for channel {id}: {e}")
                 continue

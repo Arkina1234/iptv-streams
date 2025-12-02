@@ -2,66 +2,84 @@ import requests
 import json
 from datetime import datetime
 
-# Make the API request
+# Fetch data
 url = "https://epg.unreel.me/v2/sites/rewardedtv/live-channels/public/081f73704b56aaceb6b459804761ec54"
 response = requests.get(url)
 data = response.json()
 
-# Generate M3U output for all channels
-m3u_output = "#EXTM3U url-tvg=\"https://arkina1234.github.io/iptv-streams/epg/rewardedtv.xml\"\n"
+# Generate M3U
+m3u = ['#EXTM3U url-tvg="https://arkina1234.github.io/iptv-streams/epg/rewardedtv.xml"']
+
 for channel in data:
-    channel_id = channel['_id']
-    name = channel['name']
-    thumbnails = channel['thumbnails']['light']
-    stream_url = channel['url'].replace('[', '%5B').replace(']', '%5D')
+    if not channel: continue
+    
+    # Channel info
+    cid = channel.get('_id', '')
+    name = channel.get('name', '')
+    stream = channel.get('url', '').replace('[', '%5B').replace(']', '%5D')
+    logo = channel.get('thumbnails', {}).get('light', '')
+    chno = channel.get('siteOptions', {}).get('channelNumber', '')
+    
+    m3u.append(f'#EXTINF:-1 tvg-id="{cid}" tvg-chno="{chno}" tvg-logo="{logo}",{name}')
+    m3u.append(stream)
 
-    m3u_output += f'#EXTINF:-1 tvg-id="{channel_id}" tvg-logo="{thumbnails}",{name}\n'
-    m3u_output += f'{stream_url}\n'
+with open('m3u/rewardedtv.m3u', 'w', encoding='utf-8') as f:
+    f.write('\n'.join(m3u))
 
-# Generate XML output for all channels
-xml_output = '<?xml version="1.0" encoding="UTF-8" ?>\n'
-xml_output += '<!DOCTYPE tv SYSTEM "xmltv.dtd">\n'
-xml_output += '<tv source-info-url="https://epg.unreel.me" source-info-name="Bitcentral" generator-info-name="">\n'
+# Generate XML
+xml = [
+    '<?xml version="1.0" encoding="UTF-8" ?>',
+    '<!DOCTYPE tv SYSTEM "xmltv.dtd">',
+    '<tv source-info-url="https://bitcentral.com" source-info-name="Bitcentral, Inc." generator-info-name="">'
+]
 
 # Add channels
 for channel in data:
-    channel_id = channel['_id']
-    name = channel['name'].replace('&', '&amp;')
-    thumbnails = channel['thumbnails']['light']
-
-    xml_output += f'<channel id="{channel_id}">\n'
-    xml_output += f'<display-name>{name}</display-name>\n'
-    xml_output += f'<icon src="{thumbnails}" />\n'
-    xml_output += '</channel>\n'
+    if not channel: continue
+    cid = channel.get('_id', '')
+    name = channel.get('name', '').replace('&', '&amp;')
+    logo = channel.get('thumbnails', {}).get('light', '')
+    
+    xml.extend([
+        f'    <channel id="{cid}">',
+        f'        <display-name>{name}</display-name>',
+        f'        <icon src="{logo}" />',
+        '    </channel>'
+    ])
 
 # Add programmes
 for channel in data:
-    channel_id = channel['_id']
+    if not channel: continue
+    cid = channel.get('_id', '')
+    entries = channel.get('epg', {}).get('entries', [])
+    
+    for entry in entries:
+        if not entry: continue
+        
+        # Format data
+        title = entry.get('title', '').replace('&', '&amp;')
+        desc = entry.get('description', '').replace('&', '&amp;')
+        
+        # Format timestamps
+        start = entry.get('start', '').replace('Z', '+00:00')
+        stop = entry.get('stop', '').replace('Z', '+00:00')
+        
+        try:
+            start_fmt = datetime.fromisoformat(start).strftime("%Y%m%d%H%M%S")
+            stop_fmt = datetime.fromisoformat(stop).strftime("%Y%m%d%H%M%S")
+        except:
+            continue
+        
+        xml.extend([
+            f'    <programme start="{start_fmt} +0000" stop="{stop_fmt} +0000" channel="{cid}">',
+            f'        <title>{title}</title>',
+            f'        <desc>{desc}</desc>',
+            '    </programme>'
+        ])
 
-    if channel['epg']['entries']:
-        for entry in channel['epg']['entries']:
-            epg_description = entry.get('description', '')
-            epg_start = entry['start']
-            epg_stop = entry['stop']
-            epg_title = entry['title']
-
-            description = epg_description.replace('&', '&amp;') if epg_description else ""
-            start = datetime.strptime(epg_start, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y%m%d%H%M%S")
-            stop = datetime.strptime(epg_stop, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%Y%m%d%H%M%S")
-            title = epg_title.replace('&', '&amp;') if epg_title else ""
-
-            xml_output += f'<programme start="{start} +0000" stop="{stop} +0000" channel="{channel_id}">\n'
-            xml_output += f'<title lang="en">{title}</title>\n'
-            xml_output += f'<desc lang="en">{description}</desc>\n'
-            xml_output += '</programme>\n'
-
-xml_output += '</tv>'
-
-# Save to files
-with open('m3u/rewardedtv.m3u', 'w', encoding='utf-8') as f:
-    f.write(m3u_output)
+xml.append('</tv>')
 
 with open('epg/rewardedtv.xml', 'w', encoding='utf-8') as f:
-    f.write(xml_output)
+    f.write('\n'.join(xml))
 
-print("Files saved: rewardedtv.m3u and rewardedtv.xml")
+print("Files generated: m3u/rewardedtv.m3u and epg/rewardedtv.xml")
